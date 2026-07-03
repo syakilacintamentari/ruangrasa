@@ -22,5 +22,8 @@ if ($data > 0) {
 
     header("Location: dashboard.php");
 } else {
-    echo "Username atau password salah";
+    echo "<script>
+        alert('Username atau Password Salah!');
+        window.location.href = 'login.php';
+    </script>";
 }

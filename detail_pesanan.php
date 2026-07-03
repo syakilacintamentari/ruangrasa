@@ -15,7 +15,7 @@ $pesanan = mysqli_fetch_assoc(
     mysqli_query(
         $koneksi,
         "SELECT * FROM pesanan
-        WHERE id_pesanan = '$id'"
+        WHERE id_pesanan='$id'"
     )
 );
 
@@ -26,7 +26,7 @@ $detail = mysqli_query(
     FROM detail_pesanan
     JOIN menu
     ON detail_pesanan.id_menu = menu.id_menu
-    WHERE detail_pesanan.id_pesanan = '$id'"
+    WHERE detail_pesanan.id_pesanan='$id'"
 );
 
 ?>
@@ -35,71 +35,173 @@ $detail = mysqli_query(
 <html>
 
 <head>
-    <title>
-        Detail Pesanan
-    </title>
+    <title>Detail Pesanan | Ruang Rasa</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        .card {
+            border: none;
+            border-radius: 18px;
+        }
+
+        .table th {
+            background: white;
+            color: #198754;
+            border-bottom: 3px solid #198754;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 50px;
+            background: #212529;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+
 </head>
 
 <body>
-    <h1>Detail Pesanan</h1>
 
-    <a href="data_pesanan.php">
-        Kembali
-    </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow">
+        <div class="container">
 
-    <hr>
+            <a class="navbar-brand fw-bold" href="dashboard.php">
+                Ruang Rasa Admin
+            </a>
 
-    <p>
-        <b>Nama Pelanggan:</b>
-        <?php echo $pesanan['nama_pelanggan']; ?>
-    </p>
+            <a href="data_pesanan.php"
+                class="btn btn-light">
+                Data Pesanan
+            </a>
 
-    <p>
-        <b>Nomor Meja:</b>
-        <?php echo $pesanan['nomor_meja']; ?>
-    </p>
+        </div>
+    </nav>
 
-    <p>
-        <b>Status:</b>
-        <?php echo $pesanan['status']; ?>
+    <div class="container mt-5">
 
-    </p>
+        <div class="card shadow">
 
-    <hr>
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">
+                    Detail Pesanan
+                </h4>
+            </div>
 
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>Menu</th>
-            <th>Qty</th>
-            <th>Subtotal</th>
-        </tr>
+            <div class="card-body">
 
-        <?php while ($row = mysqli_fetch_assoc($detail)) { ?>
-            <tr>
-                <td>
-                    <?php echo $row['nama_menu']; ?>
-                </td>
-                <td>
-                    <?php echo $row['qty']; ?>
-                </td>
+                <div class="row mb-4">
 
-                <td>
-                    <?php echo $row['subtotal']; ?>
-                </td>
-            </tr>
-        <?php } ?>
-    </table>
-    <hr>
-    <h3>
-        Total:
-        Rp<?php echo number_format($pesanan['total']); ?>
-    </h3>
+                    <div class="col-md-4">
+                        <strong>Nama Pelanggan</strong><br>
+                        <?php echo $pesanan['nama_pelanggan']; ?>
+                    </div>
 
-    <br>
+                    <div class="col-md-3">
+                        <strong>Nomor Meja</strong><br>
+                        <?php echo $pesanan['nomor_meja']; ?>
+                    </div>
 
-    <a href="cetak_struk.php?id=<?php echo $id; ?>">
-        Cetak Struk
-    </a>
+                    <div class="col-md-3">
+                        <strong>Status</strong><br>
+
+                        <?php
+                        if ($pesanan['status'] == "Menunggu") {
+                            echo "<span class='badge bg-warning text-dark'>Menunggu</span>";
+                        } elseif ($pesanan['status'] == "Diproses") {
+                            echo "<span class='badge bg-primary'>Diproses</span>";
+                        } else {
+                            echo "<span class='badge bg-success'>Selesai</span>";
+                        }
+                        ?>
+
+                    </div>
+
+                </div>
+
+                <table class="table table-bordered table-hover table-striped">
+
+                    <thead>
+
+                        <tr>
+                            <th>Menu</th>
+                            <th width="120">Qty</th>
+                            <th width="180">Subtotal</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <?php while ($row = mysqli_fetch_assoc($detail)) { ?>
+
+                            <tr>
+
+                                <td>
+                                    <?php echo $row['nama_menu']; ?>
+                                </td>
+
+                                <td>
+                                    <?php echo $row['qty']; ?>
+                                </td>
+
+                                <td>
+                                    Rp<?php echo number_format($row['subtotal'], 0, ",", "."); ?>
+                                </td>
+
+                            </tr>
+
+                        <?php } ?>
+
+                    </tbody>
+
+                </table>
+
+                <div class="text-end mt-4">
+
+                    <h4 class="text-success fw-bold">
+                        Total :
+                        Rp<?php echo number_format($pesanan['total'], 0, ",", "."); ?>
+                    </h4>
+
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+
+                    <a
+                        href="data_pesanan.php"
+                        class="btn btn-secondary">
+                        Kembali
+                    </a>
+
+                    <a
+                        href="cetak_struk.php?id=<?php echo $id; ?>"
+                        class="btn btn-success">
+                        Cetak Struk
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        &copy; <?php echo date("Y"); ?> Ruang Rasa Cafe & Resto.
+        <br>
+        Nikmati Setiap Rasa, Ciptakan Setiap Cerita
+    </div>
+
 </body>
 
 </html>

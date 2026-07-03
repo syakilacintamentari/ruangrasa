@@ -58,18 +58,37 @@ $data = mysqli_query($koneksi, "SELECT * FROM menu");
             <?php while ($menu = mysqli_fetch_array($data)) { ?>
 
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow border-0">
-                        <img src="foto/<?php echo $menu['foto']; ?>"
-                            class="card-img-top"
-                            style="height: 220px; object-fit:cover;">
-                        <div class="card-body">
+                    <div class="card h-100 shadow border-0 rounded-4">
+                        <?php
+                        if (!empty($menu['foto'])) {
+                        ?>
+
+                            <img
+                                src="assets/images/<?php echo $menu['foto']; ?>"
+                                class="card-img-top"
+                                style="height:220px; object-fit:cover;">
+
+                        <?php
+                        } else {
+                        ?>
+
+                            <img
+                                src="assets/images/logo.jpeg"
+                                class="card-img-top"
+                                style="height: 220px; object-fit:cover;">
+
+                        <?php
+                        }
+                        ?>
+
+                        <div class="card-body text-center">
                             <h4 class="card-title fw-bold">
                                 <?php echo $menu['nama_menu']; ?>
                             </h4>
 
                             <span class="badge bg-success"><?php echo $menu['kategori']; ?></span>
 
-                            <p class="mt-3">
+                            <p class="mt-3" style="min-height:70px;">
                                 <?php echo $menu['deskripsi']; ?>
                             </p>
 

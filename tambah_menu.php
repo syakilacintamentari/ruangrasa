@@ -13,59 +13,151 @@ if (!isset($_SESSION['login'])) {
 <html>
 
 <head>
-    <title>Tambah Menu</title>
+    <title>Tambah Menu | Ruang Rasa</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        .card {
+            border: none;
+            border-radius: 18px;
+        }
+
+        .form-control,
+        .form-select {
+            height: 50px;
+        }
+
+        textarea.form-control {
+            height: 120px;
+        }
+
+        .footer {
+            margin-top: 50px;
+            background: #212529;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Tambah Menu Baru</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="dashboard.php">
+                Ruang Rasa Admin
+            </a>
 
-    <form action="simpan_menu.php" method="POST">
-        <P>
-            Nama Menu
-            <br>
-            <input type="text" name="nama_menu" required>
-        </P>
+            <a
+                href="data_menu.php"
+                class="btn btn-light">
+                Data Menu
+            </a>
+        </div>
+    </nav>
 
-        <p>
-            Kategori
-            <br>
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">
+                    Tambah Menu Baru
+                </h4>
+            </div>
 
-            <select name="kategori" required>
-                <option value="">--Pilih Kategori--</option>
+            <div class="card-body">
 
-                <option value="Minuman">Minuman</option>
-                <option value="Makanan">Makanan</option>
-                <option value="Cemilan">Cemilan</option>
-                <option value="Dessert">Dessert</option>
-            </select>
-        </p>
+                <form action="simpan_menu.php"
+                    method="POST"
+                    enctype="multipart/form-data">
 
-        <p>
-            Deskripsi
-            <br>
-            <textarea
-                name="deskripsi"
-                rows="4"
-                cols="40"
-                required></textarea>
-        </p>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Nama Menu
+                        </label>
+                        <input type="text"
+                            name="nama_menu"
+                            class="form-control"
+                            required>
+                    </div>
 
-        <p>
-            Harga
-            <br>
-            <input type="number" name="harga" required>
-        </p>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Kategori
+                        </label>
 
-        <button type="submit">
-            Simpan Menu
-        </button>
-    </form>
-    <br>
+                        <select
+                            name="kategori"
+                            class="form-select"
+                            required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="Minuman">Minuman</option>
+                            <option value="Makanan">Makanan</option>
+                            <option value="Cemilan">Cemilan</option>
+                            <option value="Dessert">Dessert</option>
+                        </select>
+                    </div>
 
-    <a href="data_menu.php">
-        Kembali
-    </a>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Deskripsi
+                        </label>
 
+                        <textarea
+                            name="deskripsi"
+                            class="form-control"
+                            required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Harga
+                        </label>
+
+                        <input
+                            type="number"
+                            name="harga"
+                            class="form-control"
+                            required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">
+                            Foto Menu
+                        </label>
+                        <input
+                            type="file"
+                            name="foto"
+                            class="form-control"
+                            accept="image/*">
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+                        Simpan Menu
+                    </button>
+
+                    <a
+                        href="data_menu.php"
+                        class="btn btn-secondary">
+                        Kembali
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; <?php echo date("Y"); ?> Ruang Rasa Cafe & Resto.
+        <br>
+        Nikmati Setiap Rasa, Ciptakan Setiap Cerita
+    </div>
 </body>
 
 </html>

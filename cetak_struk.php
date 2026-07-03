@@ -15,7 +15,7 @@ $pesanan = mysqli_fetch_assoc(
     mysqli_query(
         $koneksi,
         "SELECT * FROM pesanan
-        WHERE id_pesanan = '$id'"
+        WHERE id_pesanan='$id'"
     )
 );
 
@@ -24,105 +24,172 @@ $detail = mysqli_query(
     "SELECT detail_pesanan.*,
     menu.nama_menu
     FROM detail_pesanan
-    JOIN Menu
+    JOIN menu
     ON detail_pesanan.id_menu = menu.id_menu
-    WHERE detail_pesanan.id_pesanan = '$id'"
-
-
+    WHERE detail_pesanan.id_pesanan='$id'"
 );
+
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>
-        Cetak Struk
-    </title>
+
+    <title>Cetak Struk</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            width: 300px;
+            width: 320px;
             margin: auto;
+            color: #000;
         }
 
-        h2 {
+        h2,
+        p {
             text-align: center;
-
+            margin: 5px;
         }
 
         table {
             width: 100%;
+            border-collapse: collapse;
         }
 
-
         td {
-            padding: 3px;
+            padding: 4px 0;
+            font-size: 14px;
         }
 
         hr {
-            border: 1px dashed black;
+            border: none;
+            border-top: 1px dashed #000;
+            margin: 10px 0;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: bold;
         }
     </style>
 
 </head>
 
 <body>
+
     <h2>RUANG RASA</h2>
 
-    <p align="center">
+    <p>
+        Cafe & Resto
+    </p>
+
+    <p>
         Nikmati Setiap Rasa,<br>
         Ciptakan Setiap Cerita
     </p>
 
     <hr>
 
-    <p>
-        Nama: <?php echo $pesanan['nama_pelanggan']; ?>
-        <br>
-        Meja: <?php echo $pesanan['nomor_meja']; ?>
-        <br>
-        Tanggal: <?php echo $pesanan['tanggal']; ?>
-    </p>
-
-    <hr>
-
     <table>
-        <?php while ($row = mysqli_fetch_assoc($detail)) { ?>
 
-            <tr>
-                <td>
-                    <?php echo $row['nama_menu']; ?>
-                </td>
+        <tr>
+            <td>Nama</td>
+            <td class="right">
+                <?php echo $pesanan['nama_pelanggan']; ?>
+            </td>
+        </tr>
 
-                <td align="center">
-                    x<?php echo $row['qty']; ?>
-                </td>
+        <tr>
+            <td>Meja</td>
+            <td class="right">
+                <?php echo $pesanan['nomor_meja']; ?>
+            </td>
+        </tr>
 
-                <td align="right">
-                    Rp<?php echo number_format($row['subtotal']); ?>
-                </td>
-            </tr>
+        <tr>
+            <td>Tanggal</td>
+            <td class="right">
+                <?php echo $pesanan['tanggal']; ?>
+            </td>
+        </tr>
 
-        <?php } ?>
     </table>
 
     <hr>
 
-    <h3>
-        Total:
-        Rp<?php echo number_format($pesanan['total']); ?>
-    </h3>
+    <table>
+
+        <?php while ($row = mysqli_fetch_assoc($detail)) { ?>
+
+            <tr>
+
+                <td colspan="2">
+                    <?php echo $row['nama_menu']; ?>
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    <?php echo $row['qty']; ?> x
+                </td>
+
+                <td class="right">
+                    Rp<?php echo number_format($row['subtotal'], 0, ",", "."); ?>
+                </td>
+
+            </tr>
+
+        <?php } ?>
+
+    </table>
 
     <hr>
 
-    <p align="center">
-        Terimakasih
+    <table>
+
+        <tr>
+
+            <td class="total">
+                TOTAL
+            </td>
+
+            <td class="right total">
+                Rp<?php echo number_format($pesanan['total'], 0, ",", "."); ?>
+            </td>
+
+        </tr>
+
+    </table>
+
+    <hr>
+
+    <p>
+        Terima Kasih
+    </p>
+
+    <p>
+        Selamat Menikmati
+    </p>
+
+    <p>
+        Ruang Rasa Cafe & Resto
     </p>
 
     <script>
         window.print();
     </script>
+
 </body>
 
 </html>
